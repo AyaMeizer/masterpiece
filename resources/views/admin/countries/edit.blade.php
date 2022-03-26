@@ -1,0 +1,37 @@
+@extends('admin.layout')
+@section('content')
+<div class="container-fluid">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Countries</strong> Form
+                            </div>
+                            <div class="card-body card-block">
+                            <form method="post" action="{{url('update-country/'.$country->id
+                                            )}}">
+                                        @csrf 
+                                        @method('PUT')
+                                    <div class="form-group">
+                                        <label for="nf-email" class=" form-control-label">Country Name</label>
+                                        <input type="text" id="nf-email" name="name"  placeholder="Enter Country Name" class="form-control" value="{{$country->name}}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nf-email" class=" form-control-label">Image</label>
+                                        <input type="text" id="nf-email" name="image"  placeholder="Enter image URL" class="form-control" value="{{$country->image}}" required>
+                                    </div>
+
+                                    <div class="card-footer">
+
+                                        <input type="submit" class="btn btn-info"  name="submit" value="submit">
+                                    </div>
+                                </form>
+                                @endsection
+
+
+
+
+                            </div>
+
+                        </div>
+                     
+
+                    </div>

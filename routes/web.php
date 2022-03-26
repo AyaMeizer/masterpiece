@@ -1,0 +1,95 @@
+<?php
+
+use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\FrontendController;
+use App\Http\Controllers\Admin\TripController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\ReservationController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('admin.index');
+});
+Route::get('/users', [UserController::class,'index']);
+Route::get('/users/edit/{id}', [UserController::class,'edit']);
+Route::get('/users/create', [UserController::class,'add']);
+Route::put('updateUser/{id}', [UserController::class, 'update']);
+Route::post('createUser', [UserController::class, 'insert']);
+Route::get('deleteUser/{id}', [UserController::class, 'destroy']);
+
+ // Trips /////////////////////
+
+ Route::get('/trips', [TripController::class, 'index']);
+ Route::get('add-trip', [TripController::class, 'add']);
+ Route::get('edit-trip/{id}', [TripController::class, 'edit']);
+ Route::put('update-trip/{id}', [TripController::class, 'update']);
+ Route::post('insert-trip', [TripController::class, 'insert']);
+ Route::get('delete-trip/{id}', [TripController::class, 'destroy']);
+
+ // countries /////////////////////
+
+ Route::get('/countries', [CountryController::class, 'index']);
+ Route::get('add-country', [CountryController::class, 'add']);
+ Route::get('edit-country/{id}', [CountryController::class, 'edit']);
+ Route::post('insert-country', [CountryController::class, 'insert']);
+ Route::put('update-country/{id}', [CountryController::class, 'update']);
+ Route::get('delete-country/{id}', [CountryController::class, 'destroy']);
+
+ // Reservations ////////////////////////////
+ Route::get('reservations', [ReservationController::class, 'adminIndex']);
+ Route::get('accepted-reservations', [ReservationController::class, 'acceptedIndex']);
+ Route::put('accept-reser/{id}/{tid}', [ReservationController::class, 'acceptStatus']);
+ Route::get('reject-reser/{id}/{tid}', [ReservationController::class, 'destroy']);
+
+ //Inquires /////////////////////////////////
+ Route::get('inquiries', [InquiryController::class, 'adminIndex']);
+
+
+
+ 
+
+// Mar3i
+Route::get('/', [TripController::class, 'showAllProductsWelcome']);
+Route::get('/contact', function () {
+    return view('contact');
+});
+Route::get('/about', function () {
+    return view('about');
+});
+
+// Route::get('/profile', function () {
+//     return view('profile');
+// });
+Route::get('profile', [UserController::class, 'userProfile']);
+Route::put('updateUser/{id}', [UserController::class, 'updateProfileUser']);
+Route::get('/destinations', [TripController::class, 'showAllProducts']);
+Route::get('/book/{id}', [ReservationController::class, 'index']);
+Route::get('/book-add/{id}', [ReservationController::class, 'insert']);
+Route::get('destinations/{id}', [TripController::class, 'showFilteredProducts']);
+Route::get('/destinations-h2l', [TripController::class, 'showHighestProducts']);
+Route::get('/destinations-l2h', [TripController::class, 'showLowestProducts']);
+Route::get('/show-trip/{id}', [TripController::class, 'show']);
+Route::post('add-inquiry', [InquiryController::class, 'store']);
+Route::get('delete-reserve/{id}/{tid}', [ReservationController::class, 'destroyUser']);
+
+
+
+// Sanad
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth','isAdmin'])->group(function() {
+Route::get('dashboard', [FrontendController::class, 'index']);
+});

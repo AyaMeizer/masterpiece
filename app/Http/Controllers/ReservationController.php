@@ -11,6 +11,14 @@ use App\Models\Reservation;
 
 class ReservationController extends Controller
 {
+    public function viewRes(Request $request){
+        $reservation = Reservation::all();
+        return response()->json([
+           "success" =>"yes",
+           "reservation"=>$reservation 
+        ]);
+
+    }
     public function insertRes(Request $request){
          $reservation=new Reservation();
          $reservation->name = $request->input('username');
